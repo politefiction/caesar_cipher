@@ -1,39 +1,43 @@
+require 'sinatra'
+#require 'sinatra/reloader' if development?
+require 'erb'
+
+
+get '/' do 
+  message = params["message"]
+  cipher = params["cipher"].to_i
+  coded_message = encrypt(message, cipher) if (message and cipher)
+  erb :index, :locals => { :coded_message => coded_message }
+end
+
 def encrypt(message, cipher)
   coded_message = []
   arr = message.split("")
-  arr.each do |letter|
-    letter = letter.ord
-
-    #for uppercase letters:
-    if (letter >= 65 && letter <= 90)
-      code = letter + cipher
-      if code < 65
-        x = (90-(64-code))
-        coded_message.push(x.chr)
-      elsif code > 90
-        x = (code-90) + 64
-        coded_message.push(x.chr)
-      else
-        coded_message.push(code.chr)
-      end
-      
-    #for lowercase letters:    
-    elsif (letter >= 97 && letter <=122)
-      code = letter + cipher
-      if code < 97
-        x = (122-(96-code))
-        coded_message.push(x.chr)
-      elsif code > 122
-        x = (code-122) + 96
-        coded_message.push(x.chr)
-      else
-        coded_message.push(code.chr)
-      end
-      
-    else
-      coded_message.push(letter.chr)
-    end
-  end
-  return coded_message.join()
+  arr.each { |letter| coded_message << convert(letter, cipher) }
+  coded_message.join()
 end
-  
+
+def convert(letter, cipher)
+  ltr = letter.ord
+  if ltr.between?(65, 90)
+    convert_uppercase(ltr, cipher)
+  elsif ltr.between?(97, 122)
+    convert_lowercase(ltr, cipher)
+  else
+    ltr.chr
+  end
+end
+
+def convert_uppercase(ltr, cipher)
+    code = ltr + cipher
+    x = (90-(64-code)) if code < 65
+    x = (code-90) + 64 if code > 90
+    x ? x.chr : code.chr
+end
+
+def convert_lowercase(ltr, cipher)
+  code = ltr + cipher
+  x = (122-(96-code)) if code < 97
+  x = (code-122) + 96 if code > 122
+  x ? x.chr : code.chr
+end

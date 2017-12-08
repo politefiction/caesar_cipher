@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>Caesar Cipher</title>
+	<style>
+		body {
+			background: #153b63;
+			font-family: "arial";
+		}
+		h2 {
+			color: white;
+			margin-left: 5px;
+		}
+		.box {
+			margin-left: 50px;
+			margin-top: 20px;
+			padding-left: 10px;
+			border: 5px solid white;
+			border-radius: 10px;
+			background: white;
+			width: 300px;
+		}
+	</style>
+</head>
+<body>
+	<br><h2>Welcome to Caesar Cipher!</h2><br>
+	<div class="box">
+		<p>Please enter a message:</p>
+		<form>
+			<input type='text' name='message' />
+			<p>Please enter a cipher:</p>
+			<input type='text' name='cipher' />
+			<input type='submit' value='Encrypt' />
+		</form>
+	</div>
+	<p class="box">
+		Coded message: <%= coded_message %>
+	</p>
+</body>
+</html>

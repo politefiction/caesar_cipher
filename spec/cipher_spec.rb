@@ -1,3 +1,4 @@
+# Does not work without commenting out sinatra, reloader
 require 'cipher'
 
 describe 'encrypt' do
